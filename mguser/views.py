@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 from .models import Mguser
-
+from .forms import LoginForm
 
 # Create your views here.
 def home(requset):
@@ -18,29 +18,16 @@ def logout(request):
     return redirect('/')
 
 def login(request):
-    if request.method == 'GET': # get으로오면 화면만 그냥 보여주고
-        return render(request, 'login.html')
-    elif request.method == 'POST':
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
-
-        res_data = {}
-        if not (username and password):
-            res_data['error'] = '모든 값을 입력하세요.'
-        else:
-            mguser = Mguser.objects.get(username=username)
-            if check_password(password, mguser.password):
-                #로그인 처리
-                # 여기에 세션으로 로그인 처리
-                # 1. 세션
-                # 2. home으로 보내기 (redirect / shortcut의 redirect)
-                request.session['user'] = mguser.id
-                return redirect('/')
-            else:
-                #비밀번호 에러 처리
-                res_data['error'] = '비밀번호가 틀렸습니다.'
-
-        return render(request, 'login.html', res_data)
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        # 기본 유효성검사 = 값의 유무
+        # form.py에 추가사항 
+        if form.is_valid():
+            return redirect('/')
+    else:
+        form = LoginForm()
+    return render(request, 'Login.html', {'form': form})
+    
 
 def register(request):
     # 레지스터로 들어오는 요청이 2개있음
