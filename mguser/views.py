@@ -23,9 +23,12 @@ def login(request):
         # 기본 유효성검사 = 값의 유무
         # form.py에 추가사항 
         if form.is_valid():
+            request.session['user'] = form.user_id
             return redirect('/')
+            
+        
     else:
-        form = LoginForm()
+        form = LoginForm() # 빈 클래스 변수 생성
     return render(request, 'Login.html', {'form': form})
     
 
