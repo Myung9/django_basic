@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<div class="row mt-5">
+    <div class="col-12">
+        <table class="table table-light">
+            <thead class="table-light text-dark">
+                <tr>
+                    <th>#</th>
+                    <th>제목</th>
+                    <th>아이디</th>
+                    <th>일시</th>
+                </tr>
+            </thead>
+            {{ boards }}
+            <tbody class="text-dark">
+                <tr>
+                    <th>1</th>
+                    <th>제목 테스트</th>
+                    <th>mguser</th>
+                    <th>2019 12</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary">글쓰기</button>
+    </div>
+</div>
+{% endblock %}

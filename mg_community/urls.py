@@ -20,5 +20,6 @@ from mguser.views import home
 urlpatterns = [
     path('admin/', admin.site.urls), # admin안에 여러가지 url들이 정의 되어 있다.
     path('mguser/', include('mguser.urls')),
+    path('board/', include('board.urls')),
     path('', home),
 ]
