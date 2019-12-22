@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.http import Http404
 from mguser.models import Mguser
 from .models import Board
@@ -40,5 +41,10 @@ def board_write(request):
     return render(request, 'board_write.html', {'form': form})
 
 def board_list(request):
-    boards = Board.objects.all().order_by('-id') # 가져오면서 최신것을 가져오게 정렬
+    all_boards = Board.objects.all().order_by('-id') # 가져오면서 최신것을 가져오게 정렬
+    page = int(request.GET.get('p', 1))
+    paginator = Paginator(all_boards, 2)
+    #paginator를써서 쿼리셋에서 변경
+    boards = paginator.get_page(page)
+
     return render(request, 'board_list.html', {'boards': boards})
