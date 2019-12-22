@@ -26,7 +26,13 @@ class LoginForm(forms.Form):
         password = cleaned_data.get('password')
 
         if username and password:
-            mguser = Mguser.objects.get(username=username)
+            try:
+                mguser = Mguser.objects.get(username=username)
+            #except Mguser.objects.DoesNotExist:
+            except Mguser.DoesNotExist: # pylint 문법오류 / 실행 O
+                self.add_error('username', '아이디가 없습니다.')
+                return
+
             if not check_password(password, mguser.password):
                 self.add_error('password', '비밀번호가 틀렸습니다')
             else: # view의 login에서 접근하기위해
