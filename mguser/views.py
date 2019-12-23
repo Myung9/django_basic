@@ -5,12 +5,8 @@ from .models import Mguser
 from .forms import LoginForm
 
 # Create your views here.
-def home(requset):
-    user_id = requset.session.get('user')
-    if user_id:
-        mguser = Mguser.objects.get(pk=user_id)
-        return HttpResponse(mguser.username)
-    return HttpResponse('Home!')
+def home(request):
+    return render(request, 'home.html')
 
 def logout(request):
     if request.session.get('user'):
