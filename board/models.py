@@ -8,9 +8,13 @@ class Board(models.Model):
     title = models.CharField(max_length=128,
                                 verbose_name='제목')
     contents = models.TextField(verbose_name='내용')
+    # foreignkey -> 1:n관계
+    # tag : n:m관계
     writer = models.ForeignKey('mguser.Mguser',
                                 on_delete=models.CASCADE, # 삭제되면 같이 삭제
-                                verbose_name='작성자')                                
+                                verbose_name='작성자')
+    # tag app 변수 추가
+    tags = models.ManyToManyField('tag.Tag', verbose_name='태그')
     registered_dttm = models.DateTimeField(auto_now_add=True,
                                             verbose_name='등록시간')
 
