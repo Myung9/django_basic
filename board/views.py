@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.http import Http404
 from mguser.models import Mguser
+from tag.models import Tag
 from .models import Board
 from .forms import BoardForm
 
@@ -29,12 +30,21 @@ def board_write(request):
             user_id = request.session.get('user')
             mguser = Mguser.objects.get(pk=user_id)
             
+            tags = form.cleaned_data['tags'].split(',')
+            
             # cleaned_data로 가져올수 있음
             board = Board()
             board.title = form.cleaned_data['title']
             board.contents = form.cleaned_data['contents']
             board.writer = mguser
             board.save()
+
+            for tag in tags:
+                if not tag:
+                    continue
+                _tag, _ = Tag.objects.get_or_create(name=tag)
+                board.tags.add(_tag)
+
             return redirect('/board/list/')
     else:
         form = BoardForm
@@ -43,7 +53,7 @@ def board_write(request):
 def board_list(request):
     all_boards = Board.objects.all().order_by('-id') # 가져오면서 최신것을 가져오게 정렬
     page = int(request.GET.get('p', 1))
-    paginator = Paginator(all_boards, 2)
+    paginator = Paginator(all_boards, 4)
     #paginator를써서 쿼리셋에서 변경
     boards = paginator.get_page(page)
 
