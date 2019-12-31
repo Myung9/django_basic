@@ -23,9 +23,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '88fhr)67j3mbf-jf_%@#xytdo-)ouio$$9=12qvkc0t1j$r(=l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'myunggu.pythonanywhere.com',
+    # '*'
+]
 
 
 # Application definition
@@ -123,7 +126,7 @@ USE_TZ = True
 
 # CDN말고 static으로 사용하기 위한 static
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
-
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static')
+#]
+STATAIC_ROOT = os.path.join(BASE_DIR, 'static')
